@@ -1,9 +1,13 @@
 \mode<presentation>
 
+\newcommand\canvasLeftMargin{12.6mm}
+\newcommand\canvasBottomMargin{15mm}
+
 \setbeamertemplate{background}{
   \begin{tikzpicture}
   \useasboundingbox (0,0) rectangle(\the\paperwidth,\the\paperheight);
-  \fill[color=promwadRed] (12.6mm,15mm) rectangle (13.2mm,\the\textheight);
+  \fill[color=promwadGrayFG1] (\canvasLeftMargin,\canvasBottomMargin) rectangle (\the\paperwidth,\the\textheight);
+  \fill[color=promwadRed] (\canvasLeftMargin,\canvasBottomMargin) rectangle (13.2mm,\the\textheight);
   %\fill[color=orange] (0,0) rectangle(2.95,1.9);
   %\fill[color=blue!50!cyan!80] (3.05,0) rectangle(\the\paperwidth,1.9);
   %\ifnum\thepage>1\relax%
@@ -16,7 +20,7 @@
 
 % Title page
 \defbeamertemplate*{title page}{Promwad}[1][]
-{ 
+{
    \vskip6cm%
     \begin{beamercolorbox}[wd=12cm,leftskip=3cm,sep=8pt,#1]{title page header}
       \usebeamerfont{title}\inserttitle\par%
