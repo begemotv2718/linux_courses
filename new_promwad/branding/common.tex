@@ -1,0 +1,98 @@
+\documentclass[ignorenonframetext, professionalfonts, hyperref={pdftex, unicode}]{beamer}
+%\usepackage{beamerthemesplit}
+\makeatletter
+  \def\beamer@calltheme#1#2#3{%
+    \def\beamer@themelist{#2}
+    \@for\beamer@themename:=\beamer@themelist\do
+    {\usepackage[{#1}]{\beamer@themelocation/#3\beamer@themename}}}
+
+  \def\usefolder#1{
+    \def\beamer@themelocation{#1}
+  }
+  \def\beamer@themelocation{}
+\makeatother
+%Packages to be included
+
+\usepackage{graphicx}
+
+\graphicspath{{./branding/}}
+\usefolder{./branding}
+\usetheme{Promwad}
+%\usecolortheme{wolverine}
+
+
+\usepackage[russian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+%\usepackage[orientation=landscape, size=custom, width=16, height=9, scale=0.5]{beamerposter}
+
+\usepackage{textcomp}
+
+
+\usepackage{ulem}
+
+\usepackage{verbatim}
+
+\usepackage{ucs}
+
+
+\usepackage{listings}
+\lstloadlanguages{bash}
+
+\lstset{escapechar=`,
+	extendedchars=false,
+	language=sh,
+	frame=single,
+	tabsize=2, 
+	columns=fullflexible, 
+%	basicstyle=\scriptsize,
+	keywordstyle=\color{blue}, 
+	commentstyle=\itshape\color{brown},
+%	identifierstyle=\ttfamily, 
+	stringstyle=\mdseries\color{green}, 
+	showstringspaces=false, 
+	numbers=left, 
+	numberstyle=\tiny, 
+	breaklines=true, 
+	inputencoding=utf8,
+	keepspaces=true,
+	morekeywords={u\_short, u\_char, u\_long, in\_addr}
+	}
+
+\definecolor{darkgreen}{cmyk}{0.7, 0, 1, 0.5}
+
+\lstdefinelanguage{diff}
+{
+    morekeywords={+, -},
+    sensitive=false,
+    morecomment=[l]{//},
+    morecomment=[s]{/*}{*/},
+    morecomment=[l][\color{darkgreen}]{+},
+    morecomment=[l][\color{red}]{-},
+    morestring=[b]",
+}
+
+\author[Promwad]{{\bf Promwad}}
+
+%\institution[EPAM]{EPAM}
+%\logo{\includegraphics[width=1cm]{logo.png}}
+
+\AtBeginSection[]{%
+  \begin{frame}<beamer>
+    \frametitle{}
+    \tableofcontents[
+        sectionstyle=show/shaded, hideallsubsections ]
+  \end{frame}
+  \addtocounter{framenumber}{-1}% If you don't want them to affect the slide number
+}
+
+\AtBeginSubsection[]{%
+  \begin{frame}<beamer>
+    \frametitle{}
+    \tableofcontents[
+        sectionstyle=show/hide,
+        subsectionstyle=show/shaded/hide, ]
+  \end{frame}
+  \addtocounter{framenumber}{-1}% If you don't want them to affect the slide number
+}

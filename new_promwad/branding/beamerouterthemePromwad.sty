@@ -1,0 +1,57 @@
+\mode<presentation>
+
+
+\defbeamertemplate*{frametitle}{Promwad}[1][]
+{
+  %\begin{beamercolorbox}[wd=\paperwidth,ht=1.2cm]{frametitle}
+    \vspace{3.2mm}
+    \hspace{15mm}\hbox{\vbox{\sffamily\bfseries\Large\insertframetitle}}
+  %\end{beamercolorbox}
+}
+
+\defbeamertemplate*{footline}{Promwad}
+{
+  \begin{beamercolorbox}{fg=promwadRed}
+    \vbox{
+    \hbox to \paperwidth{
+      \hspace{10mm}
+      \hbox{
+        \vbox{
+          \vbox to 0.3cm{
+            \hbox{\includegraphics[height=0.5cm]{bottom_logo.png}}
+          } 
+          \hbox{\sffamily\mdseries\fontsize{3pt}{1pt}\selectfont company presentation \copyright Promwad, 2017 }
+        }
+      }
+      \hfil 
+      \hbox to 4em{
+        \raisebox{1mm}{
+          \vbox{
+            \sffamily\Large\insertframenumber
+          }
+        }
+      }
+    }
+    }
+    \vspace{0.3cm}
+  \end{beamercolorbox}
+  %\parbox{0.5\paperwidth}{
+  %    \hspace{10mm}\includegraphics[height=0.5cm]{bottom_logo.png}
+  %}\hfill
+  %\parbox{0.2\paperwidth}{
+  %  \begin{beamercolorbox}[wd=10mm]{bg=promwadGrayBG,fg=promwadRed}
+  %    \Large
+  %    \sffamily{\insertframenumber}
+  %  \end{beamercolorbox}
+  %}
+
+  %\hbox{
+  %  \begin{beamercolorbox}[wd=\paperwidth,ht=0.5cm]{footline}
+  %
+  %    \hspace{10mm}\tiny{{\sffamily{Company presentation Promwad}}}
+  %  \end{beamercolorbox}
+  %}
+
+}
+
+\mode<all>
