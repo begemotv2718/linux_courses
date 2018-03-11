@@ -1,0 +1,5 @@
+$out_dir = './output';
+$pdf_mode = 1;
+$cleanup_mode = 2;
+$bibtex_use = 1;
+
