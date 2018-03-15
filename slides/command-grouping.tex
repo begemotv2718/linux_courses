@@ -35,12 +35,20 @@
 \end{frame}
 
 
-\begin{frame}
+\begin{frame}[fragile]
 	\frametitle{exec}
 
 	Заменяет текущий shell переданной командой. 
 
 	Часто используется для переназначения файловых дескрипторов.
+
+    \begin{block}{Пример.Открываем файловый дескриптор}
+      \begin{lstlisting}
+exec 3<> /tmp/myfile
+echo "test" >&3
+exec 3>& # Закрытие
+      \end{lstlisting}
+    \end{block}
 
 \end{frame}
 

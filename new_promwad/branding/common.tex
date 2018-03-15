@@ -1,6 +1,8 @@
 \documentclass[ignorenonframetext, professionalfonts, hyperref={pdftex, unicode}]{beamer}
 %\usepackage{beamerthemesplit}
 
+\geometry{paperwidth=140mm,paperheight=105mm}
+
 %Hack to specify beamer folder https://tex.stackexchange.com/questions/275600/beamer-themes-on-custom-folder
 \makeatletter
   \def\beamer@calltheme#1#2#3{%
@@ -16,6 +18,8 @@
 %Packages to be included
 
 \usepackage{graphicx}
+
+
 
 \graphicspath{{./branding/}}
 \usefolder{./branding}
@@ -54,8 +58,8 @@
 %	identifierstyle=\ttfamily, 
 	stringstyle=\mdseries\color{green}, 
 	showstringspaces=false, 
-	numbers=left, 
-	numberstyle=\tiny, 
+	numbers=none, 
+%	numberstyle=\tiny, 
 	breaklines=true, 
 	inputencoding=utf8,
 	keepspaces=true,
