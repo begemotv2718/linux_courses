@@ -1,0 +1,13 @@
+
+/dts-v1/;
+
+/include/"example_b.dtsi"
+
+/ {
+  };
+
+&uart {
+       status = "ok";
+};
+
+

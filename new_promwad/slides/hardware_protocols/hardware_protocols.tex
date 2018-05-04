@@ -35,6 +35,63 @@
   \end{center}
   Интерфейс отладки (консоль), GPS, модемы
 \end{frame}
+
+\subsection{SPI}
+\begin{frame}
+  \frametitle{SPI}
+  \begin{columns}
+    \column{4cm}
+    \includegraphics[width=4cm]{./slides/hardware_protocols/SPI_three_slaves.png}
+    \column{4cm}
+    \includegraphics[width=4cm]{./slides/hardware_protocols/SPI_8-bit_circular_transfer.png}
+  \end{columns}
+  \begin{center}
+    \includegraphics[height=3cm]{./slides/hardware_protocols/SPI_timing_diagram2.png}
+  \end{center}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Логический анализатор: SPI CPOL=0 CPHA=1}
+  \includegraphics[width=12cm]{./slides/hardware_protocols/spi_proto_cpol0_cpha1.png}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Логический анализатор: SPI CPOL=0 CPHA=0}
+  \includegraphics[width=12cm]{./slides/hardware_protocols/spi_proto_cpol0_cpha0.png}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Логический анализатор: SPI CPOL=1 CPHA=0}
+  \includegraphics[width=12cm]{./slides/hardware_protocols/spi_proto_cpol1_cpha0.png}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{SPI:свойства}
+  \begin{columns}
+    \column{4cm}
+    \begin{center}
+      {\bf\large Достоинства}
+    \end{center}
+    \begin{itemize}
+       \item Быстрый
+       \item Синхронный
+       \item Простой
+    \end{itemize}
+    \column{4cm}
+    \begin{center}
+      {\bf\large Недостатки}
+    \end{center}
+    \begin{itemize}
+       \item Много проводов (SS)
+    \end{itemize}
+  \end{columns}
+  \begin{center}
+    {\bf\large Типичное применение}
+  \end{center}
+  Взаимодействие с датчиками, взаимодействие с flash памятью, взаимодействие с некоторыми ethernet контроллерами
+\end{frame}
+
 \subsection{I$^2$C}   
 \begin{frame}
   \frametitle{I$^2$C}
@@ -44,6 +101,11 @@
 
     \includegraphics[height=1.5cm]{./slides/hardware_protocols/600px-I2C_data_transfer.png}
   \end{center}
+\end{frame}
+
+\begin{frame}
+  \frametitle{I$^2$C: Логический анализатор: чтение}
+  \includegraphics[width=12cm]{./slides/hardware_protocols/i2c_read.png}
 \end{frame}
 
 \begin{frame}
@@ -71,45 +133,7 @@
   \end{center}
   Взаимодействие с датчиками: гироскоп, термометр, АЦП, магнетометр; часть протокола HDMI
 \end{frame}
-\subsection{SPI}
-\begin{frame}
-  \frametitle{SPI}
-  \begin{columns}
-    \column{4cm}
-    \includegraphics[width=4cm]{./slides/hardware_protocols/SPI_three_slaves.png}
-    \column{4cm}
-    \includegraphics[width=4cm]{./slides/hardware_protocols/SPI_8-bit_circular_transfer.png}
-  \end{columns}
-  \begin{center}
-    \includegraphics[height=3cm]{./slides/hardware_protocols/SPI_timing_diagram2.png}
-  \end{center}
-\end{frame}
 
-\begin{frame}
-  \frametitle{SPI:свойства}
-  \begin{columns}
-    \column{4cm}
-    \begin{center}
-      {\bf\large Достоинства}
-    \end{center}
-    \begin{itemize}
-       \item Быстрый
-       \item Синхронный
-       \item Простой
-    \end{itemize}
-    \column{4cm}
-    \begin{center}
-      {\bf\large Недостатки}
-    \end{center}
-    \begin{itemize}
-       \item Много проводов (SS)
-    \end{itemize}
-  \end{columns}
-  \begin{center}
-    {\bf\large Типичное применение}
-  \end{center}
-  Взаимодействие с датчиками, взаимодействие с flash памятью, взаимодействие с некоторыми ethernet контроллерами
-\end{frame}
 \subsection{GPIO}
 \begin{frame}
   \frametitle{GPIO}

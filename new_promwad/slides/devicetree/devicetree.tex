@@ -1,0 +1,221 @@
+\begin{frame}
+  \frametitle{DeviceTree: что это такое?}
+\textbf{DeviceTree} -- структура данных, содержащая информацию о конфигурации конкретной платы. 
+
+\vspace{1cm}
+
+Существует в двух модификациях -- человекочитаемая (файлы \texttt{*.dts}) и машиночитаемая (файлы \texttt{*.dtb})
+
+\vspace{1cm}
+
+Бинарный файл генерируется из dts файла device tree компилятором (dtc).
+
+\vspace{1cm}
+
+Бинарный файл devicetree загружается в память одновременно с ядром, и используется ядром для подбора драйверов и загрузки параметров драйверов.
+\end{frame}
+
+\begin{frame}
+  \frametitle{DeviceTree: Зачем это нужно?}
+  \begin{itemize}
+     \item Меньше вариантов сборки ядра
+     \item Возможность поддерживать новые платы без пересборки ядра
+     \item Меньше коммитов в драйвера ядра 
+     \item Приспособлены для автоматизации
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Родственные технологии}
+  \begin{itemize}
+      \item Внутриядерные структуры данных с описанием архитектуры платы (/arch/arm/mach-*) 
+      \item UEFI
+      \item ACPI (i386 only)
+      \item OpenFirmware (PowerPC, Solaris) прямой предок
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Пример devicetree файла}
+  \begin{lstlisting}
+/dts-v1/;
+/ {
+        soc {
+		#address-cells = < 0x1 >;
+		#size-cells = < 0x1 >;
+              pic_3: pic@100 {
+                      reg = < 0x100 0x20 >;
+                      interrupt-controller;
+              };
+              uart: uart@020000 {
+                  interrupt-parent = < &pic_3 >;
+                  interrupt-parent-path =  &pic_3 ;
+                  reg = <0x020000 0x100>;
+              };
+        };
+
+};
+  \end{lstlisting}
+
+\end{frame}
+\begin{frame}[fragile]
+  \frametitle{Пример devicetree файла}
+  \begin{lstlisting}[language=C]
+/dts-v1/;
+/include/ "meson6.dtsi"
+/ {
+	model = "Geniatech ATV1200";
+	compatible = "geniatech,atv1200", "amlogic,meson6";
+	aliases {
+		serial0 =  &uart_AO;
+	};
+	memory {
+		reg = <0x40000000 0x80000000>;
+	};
+};
+&uart_AO {
+	status = "okay";
+};
+&ethmac {
+	status = "okay";
+};
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Компиляция и декомпиляция}
+  \begin{center}
+    \textbf{Компиляция}
+  \end{center}
+  \begin{lstlisting}[language=bash]
+dtc -O dtb -o example_a.dtb example_a.dts 
+  \end{lstlisting}
+  \begin{center}
+    \textbf{Декомпиляция}
+  \end{center}
+  \begin{lstlisting}[language=bash]
+dtc -O dts -o example_a.dts example_a.dtb
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Важные элементы синтаксиса}
+  \begin{center}
+    \textbf{Численные параметры}
+  \end{center}
+\begin{lstlisting}
+#address-cells = <0x1> /* Одно число */
+...
+reg = <0x200000 0x20> /* Числовой массив */
+\end{lstlisting}
+\end{frame}
+\begin{frame}[fragile]
+   \begin{center}
+     \textbf{Ссылки}
+   \end{center}  
+\begin{lstlisting}
+ /{
+   soc {
+     uart1: uart@7e0205000 { ...}
+     pic_1: pic@10000{}
+   };
+ };
+   &uart1  /*Символьная ссылка*/
+   {
+     pic=<&pic_1>; /* Ссылка на phandle */
+   }
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Упражнение}
+  \begin{itemize}
+    \item Взять файл \texttt{example\_a.dts} и скомпилировать с помощью dtc
+    \item Декомпилировать тот же файл
+    \item Посмотреть, во что превратились ссылки на \texttt{pic\_3} 
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Наиболее интересные параметры в описании устройства}
+  \begin{itemize}
+    \item \texttt{compatible} -- строка, определяет выбор драйвера
+    \item \texttt{status} -- строка, используется ли устройство \texttt{"ok"}/\texttt{"disabled"}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Наиболее важные разделы DeviceTree}
+  \begin{itemize}
+    \item \textbf{cpus} Процессоры
+    \item \textbf{memory} Структура памяти
+    \item \textbf{aliases} Таблица символов
+    \item \textbf{choosen} Параметры загрузки
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Директива include и наследование}
+  \begin{center}
+    Внутренний синтаксис devicetree
+  \end{center}
+  \begin{lstlisting}
+  /include/"filename.dtsi"
+  \end{lstlisting}
+  \begin{center}
+    Использование C препроцессора
+  \end{center}
+  \begin{lstlisting}
+  #include "filename.dtsi"
+  \end{lstlisting}
+  \begin{center}
+    Наследование: При многократном определении одного и того же параметра, в итоговый devicetree подставляется последняя версия 
+  \end{center}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Компиляция при использовании C препроцессора}
+\begin{lstlisting}[language=bash]
+cpp -nostdinc -undef -D__DTS__ -x assembler-with-cpp \
+ -Iarch/arm/boot/dts -Iarch/arm/boot/dts/include -o file.tmp mytree.dts
+dtc -O dtb -o mytree.dtb -i arch/arm/boot/dts file.tmp 
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Упражнение: Компиляция с include}
+  \begin{itemize}
+    \item Скомпилировать \texttt{example\_b.dts}
+    \item Декомпилировать его же
+    \item Посмотреть результат (какой параметр из dtsi переопределился?)
+  \end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Оверлеи пример}
+\begin{lstlisting}
+// Enable the i2s interface
+/dts-v1/;
+/plugin/;
+
+/ {
+    compatible = "brcm,bcm2708";
+
+    fragment@0 {
+        target = <&i2s>;
+        __overlay__ {
+            status = "okay";
+        };
+    };
+};
+\end{lstlisting}
+\end{frame}
+\begin{frame}[fragile]
+ \frametitle{Оверлеи}
+\begin{lstlisting}[language=bash]
+dtc -@ -I dts -O dtb -o patch.dtbo overlay.dts
+dtoverlay patch.dtbo
+dtoverlay -r patch.dtbo
+\end{lstlisting}
+\end{frame}

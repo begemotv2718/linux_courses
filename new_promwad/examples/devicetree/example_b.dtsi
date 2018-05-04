@@ -1,0 +1,21 @@
+
+
+/ {
+        soc {
+		#address-cells = < 0x1 >;
+		#size-cells = < 0x1 >;
+
+                pic_3: pic@100 {
+			            reg = < 0x100 0x20 >;
+                        interrupt-controller;
+                };
+
+		uart: uart@020000 {
+			interrupt-parent = < &pic_3 >;
+			interrupt-parent-path =  &pic_3 ;
+            reg = <0x020000 0x100>;
+		    status = "disabled";	
+		};
+        };
+
+};
