@@ -87,7 +87,7 @@ endif
 \begin{frame}[fragile]
   \frametitle{Сборка модуля: out of tree}
 \begin{lstlisting}[language=bash]
-ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- make
+ARCH=arm CROSS_COMPILE=<prefix> make
 \end{lstlisting}
 \end{frame}
 
@@ -119,7 +119,7 @@ cat /proc/modules
     \item \textbf{user} 
       системный вызов \texttt{init\_module} копирует код модуля в ядро
     \item \textbf{kernel}
-      \texttt{sys\_init\_module}
+      \texttt{init\_module}
       \begin{itemize}
         \item Добавление модуля в связный список
         \item Выделение памяти для модуля, копирование кода в эту память
@@ -135,13 +135,35 @@ cat /proc/modules
   \frametitle{Выгрузка модуля}
   \begin{itemize}
     \item Системный вызов \texttt{delete\_module}
-    \item Внутриядерный вызов \texttt{sys\_delete\_module}
+    \item Внутриядерный вызов \texttt{delete\_module}
       \begin{itemize}
         \item Проверяет, что модуль не используется другими модулями
         \item Проверяте, что модуль не используется процессами
         \item Вызывает процедуру деинициализации модуля
         \item Удаляет код модуля из памяти
       \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Модули ядра vs userspace}
+  \begin{itemize}
+    \item Нет стандартной библиотеки (линковка только внутри ядра)
+    \item Нет вещественных чисел (floating point)
+    \item Маленький стек (может быть 4096 байт)
+    \item Никто не освободит ресурсы за тебя
+    \item Segmentation fault=все умерли
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Упражнение}
+  \begin{itemize}
+      \item Сделать out-of-tree модуль hello-world
+      \item Скомпилировать его с помощью тулчейна output/host/bin/arm-buildroot-linux-uclibcgnueabihf-
+      \item Скопировать получившийся файл модуля hello.ko на загрузочную флешку.
+      \item Зайти на raspberry pi, загрузить и выгрузить модуль
+      \item Посмотреть на dmesg
   \end{itemize}
 \end{frame}
 
@@ -171,15 +193,12 @@ printk(KERN_ALERT "Hello, %s\n",whom);
 \end{frame}
 
 \begin{frame}
-  \frametitle{Модули ядра vs userspace}
-  \begin{itemize}
-    \item Нет стандартной библиотеки (линковка только внутри ядра)
-    \item Нет вещественных чисел (floating point)
-    \item Маленький стек (может быть 4096 байт)
-    \item Никто не освободит ресурсы за тебя
-    \item Segmentation fault=все умерли
-  \end{itemize}
+  \frametitle{Упражнение}
+  \begin{center}
+    Добавить параметр к модулю hello
+  \end{center}
 \end{frame}
+
 
 \section{Драйверы устройств}
 \subsection{Классификация драйверов}
@@ -265,7 +284,7 @@ struct mydev_dev {
 \end{frame}
 
 \begin{frame}[fragile]
-  \frametitle{Более новый подход}
+  \frametitle{Более новый подход: по книжке GKH}
 \begin{lstlisting}[language=C]
 static int __init mydev_init(void){
   dev_t mydev;
@@ -282,6 +301,15 @@ cleanup...:
 return ret;
 }
 \end{lstlisting}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Правильный подход}
+  \begin{center}
+    Описывать драйвер как драйвер класса во всех случаях, когда это возможно.
+
+    Использовать misc девайс для маленьких символьных девайсов
+  \end{center}
 \end{frame}
 
 \begin{frame}[fragile]
