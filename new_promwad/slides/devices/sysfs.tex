@@ -1,0 +1,85 @@
+\begin{frame}
+  \frametitle{sysfs}
+  \begin{itemize}
+    \item Обеспечивает единую унифицированную модель представления устройств в Linux (device driver model), вместе с udev со стороны userspace
+    \item монтируется в /sys ("улучшенный" /proc)
+    \item В ядре начиная с версии 2.6
+    \item Documentation/filesystems/sysfs*
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Преимущества унифицированной модели}
+  \begin{itemize}
+      \item меньше дублирования кода 
+      \item общий механизм для часто встречающихся функций (счетчики использования, регистрация)
+      \item возможность систематизации всех шин и устройств (разделение устройств на классы)
+      \item связь устройств и драйверов
+      \item иерархия включения питания
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Kobject- базовый объект}
+  \begin{itemize}
+    \item Описание \texttt{struct kobject} : \texttt{include/linux/kobject.h}
+    \item Документация \texttt{Documentation/kobject.txt}
+    \item Важные поля: name, parent, ktype, счетчик ссылок 
+    \item Каждому kobject соответствует каталог в /sysfs
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Строим более сложные объекты на основе kobject}
+  \begin{lstlisting}[language=C]
+  struct kobject { 
+    const char  *name;
+    struct kobject  *parent;
+    ...
+    struct kobj_type  *ktype;
+    struct sysfs_dirent *sd;
+  };
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Строим более сложные объекты на основе kobject}
+  \begin{lstlisting}[language=C]
+  struct cdev { 
+          struct kobject kobj; 
+          struct module  *owner; 
+          struct file_operations  *ops; 
+          ...
+  };
+  \end{lstlisting}
+\end{frame}
+\begin{frame}[fragile]
+  \frametitle{Строим более сложные объекты на основе kobject}
+  \begin{lstlisting}[language=C]
+  struct cdev { 
+          struct kobject kobj; 
+          struct module  *owner; 
+          struct file_operations  *ops; 
+          ...
+  };
+  \end{lstlisting}
+\end{frame}
+\begin{frame}
+  \frametitle{}
+  \begin{itemize}
+      \item
+  \end{itemize}
+\end{frame}
+\begin{frame}
+  \frametitle{}
+  \begin{itemize}
+      \item
+  \end{itemize}
+\end{frame}
+\begin{frame}
+  \frametitle{Упражнение: }
+  \begin{itemize}
+      \item 
+  \end{itemize}
+\end{frame}

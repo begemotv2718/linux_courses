@@ -199,6 +199,9 @@ printk(KERN_ALERT "Hello, %s\n",whom);
   \end{center}
 \end{frame}
 
+\section{Sysfs}
+\mode<all>{\input{./slides/devices/sysfs.tex}}
+
 
 \section{Драйверы устройств}
 \subsection{Классификация драйверов}
@@ -398,12 +401,12 @@ MODULE_AUTHOR("John Doe");
 /*Devicetree related*/
 #ifdef CONFIG_OF
 static const struct of_device_id myi2cdev_of_match[] = {
-  {.compatible = "hmc,myi2cdev83"},
+  {.compatible = "promwad,tutorial-i2c"},
 };
 #endif
 
 static const struct i2c_device_id myi2cdev_id_table[] = {
-  { "myi2cdev83",0},
+  { "tutorial_i2c",0},
   {},
 };
 MODULE_DEVICE_TABLE(i2c,myi2cdev_id_table);
@@ -411,7 +414,36 @@ MODULE_DEVICE_TABLE(i2c,myi2cdev_id_table);
 \end{frame}
 
 \begin{frame}[fragile]
-  \frametitle{Скелет драйвера платформенного устройства}
+  \frametitle{Упражнение}
+  \begin{center}
+      \textbf{Подготовка devicetree и загрузки}
+  \end{center}
+  \begin{itemize}
+     \item Взять файл i2c1-tutorial.dts
+     \item Скомпилировать его с помощью dts 
+      \verb+ <buildroot-path>/output/build/linux-custom/scripts/dtc/dtc -@ -I dts -O dtb -o i2c1-tutorial.dtbo i2c1-tutorial.dts+
+     \item Положить dtbo файл на загрузочную mmcblk0p1 карту в директорию overlays
+     \item В файле config.txt на mmcblk0p1 добавить строчку \verb+dtoverlay=i2c1-tutorial+
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Продолжение упражнения}
+    \begin{itemize}
+        \item Создать скелет модуля для i2c девайса
+        \item Скомпилировать
+        \item Скопировать \texttt{.ko} файл на загрузочную флешку (на первый раздел)
+        \item Загрузиться и смонтировать \texttt{/dev/mmcblk0p1} на \texttt{/tmp/boot}
+        \item \verb+modprobe i2c-bcm2835+
+        \item \verb+echo 6 > /proc/sys/kernel/printk+
+        \item \verb+insmod /tmp/boot/<имя модуля>+
+        \item Посмотреть \texttt{dmesg}
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{Скелет драйвера устройства - экземпляра класса}
 \begin{lstlisting}[language=C]
 static int myi2cdev_probe(struct i2c_client *client, const struct i2c_device_id *id){
   struct xxxclass_dev *xxxdev;

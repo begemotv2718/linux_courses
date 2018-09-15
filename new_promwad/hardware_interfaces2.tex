@@ -1,0 +1,36 @@
+\input{./branding/common}
+
+\title{Взаимодействие с периферией}
+
+\begin{document}
+
+\begin{frame}
+  \frametitle{}
+\end{frame}
+
+\section{Работа с периферийными устройствами из userspace}
+
+\begin{frame}
+  \frametitle{Упражнение: Включаем i2c в devicetree}
+  \begin{itemize}
+      \item Взять образ buildroot 
+      \item В директории output/build/linux-custom найти исходники нашего devicetree.
+      \item Включить i2c по адресу 0x7e80400
+      \item Сделать make dts
+      \item Перенести devicetree на карточку
+      \item Загрузиться с карточки и посмотреть /sys/firmware/devicetree/soc/i2c...
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Работа с устройством}
+  \begin{itemize}
+      \item modprobe i2c-bcm2835
+      \item modprobe i2c-dev
+      \item Убедиться, что создалась нода /dev/i2c-1
+      \item Подключить устройство согласно datasheet
+      \item i2cdetect
+  \end{itemize}
+\end{frame}
+
+\end{document}
